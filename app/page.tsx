@@ -8,7 +8,21 @@ import {
   X, Zap
 } from 'lucide-react'
 
-const destinations = [
+type Destination = {
+  id: number
+  name: string
+  state: string
+  type: string
+  crowd: string
+  score: number
+  image: string
+  tag: string
+  desc: string
+  access: string
+  activities: string
+}
+
+const destinations: Destination[] = [
   { id: 1, name: 'Hampi', state: 'Karnataka', type: 'Heritage', crowd: 'Low crowd', score: 92, image: 'https://images.unsplash.com/photo-1600100397608-f0107e6b9b5e?auto=format&fit=crop&w=1000&q=80', tag: 'Hidden gem', desc: 'Ancient ruins, boulder landscapes and stories carved into every stone.', access: 'Partial access', activities: 'History · Culture · Photography' },
   { id: 2, name: 'Munnar', state: 'Kerala', type: 'Nature', crowd: 'Moderate crowd', score: 88, image: 'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1000&q=80', tag: 'Nature escape', desc: 'Emerald tea estates and misty mountain trails in the Western Ghats.', access: 'Good access', activities: 'Tea trails · Trekking · Wellness' },
   { id: 3, name: 'Jaisalmer', state: 'Rajasthan', type: 'Cultural', crowd: 'Low crowd', score: 84, image: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1000&q=80', tag: 'Golden hour', desc: 'A living fort, desert skies and warm local hospitality.', access: 'Good access', activities: 'Desert safari · Crafts · Cuisine' },
@@ -25,6 +39,62 @@ const destinations = [
   { id: 14, name: 'Kolkata', state: 'West Bengal', type: 'Cultural', crowd: 'Moderate crowd', score: 83, image: 'https://images.unsplash.com/photo-1558431382-27e303142255?auto=format&fit=crop&w=1000&q=80', tag: 'Culture capital', desc: 'Literature, art, grand architecture and food with a soulful rhythm.', access: 'Good access', activities: 'Arts · Food · Architecture' },
   { id: 15, name: 'Shillong', state: 'Meghalaya', type: 'Nature', crowd: 'Low crowd', score: 90, image: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1000&q=80', tag: 'Cloud country', desc: 'Waterfalls, pine forests and the warm, musical heart of the Northeast.', access: 'Partial access', activities: 'Waterfalls · Music · Road trips' },
   { id: 16, name: 'Kochi', state: 'Kerala', type: 'Cultural', crowd: 'Moderate crowd', score: 86, image: 'https://images.unsplash.com/photo-1609342122563-a43ac8917a3a?auto=format&fit=crop&w=1000&q=80', tag: 'Backwater gateway', desc: 'Spice routes, coastal heritage and slow journeys through the backwaters.', access: 'Good access', activities: 'Backwaters · History · Seafood' },
+]
+
+const popularPlacesByState: Record<string, string[]> = {
+  'Andhra Pradesh': ['Visakhapatnam', 'Tirupati', 'Araku Valley', 'Vijayawada', 'Amaravati'],
+  'Arunachal Pradesh': ['Tawang', 'Ziro Valley', 'Bomdila', 'Itanagar', 'Sela Pass'],
+  Assam: ['Kaziranga National Park', 'Guwahati', 'Majuli', 'Sivasagar', 'Manas National Park'],
+  Bihar: ['Bodh Gaya', 'Patna', 'Nalanda', 'Rajgir', 'Vaishali'],
+  Chhattisgarh: ['Chitrakote Falls', 'Raipur', 'Bastar', 'Amarkantak', 'Barnawapara'],
+  Goa: ['Panaji', 'Calangute Beach', 'Baga Beach', 'Dudhsagar Falls', 'Old Goa'],
+  Gujarat: ['Ahmedabad', 'Rann of Kutch', 'Gir National Park', 'Dwarka', 'Somnath'],
+  Haryana: ['Gurugram', 'Kurukshetra', 'Panipat', 'Morni Hills', 'Sultanpur National Park'],
+  'Himachal Pradesh': ['Shimla', 'Manali', 'Dharamshala', 'Kasol', 'Spiti Valley'],
+  Jharkhand: ['Ranchi', 'Deoghar', 'Netarhat', 'Jamshedpur', 'Betla National Park'],
+  Karnataka: ['Bengaluru', 'Mysuru', 'Coorg', 'Gokarna', 'Badami'],
+  Kerala: ['Alappuzha', 'Kovalam', 'Thekkady', 'Wayanad', 'Thiruvananthapuram'],
+  'Madhya Pradesh': ['Khajuraho', 'Bhopal', 'Ujjain', 'Pachmarhi', 'Kanha National Park'],
+  Maharashtra: ['Pune', 'Nashik', 'Aurangabad', 'Lonavala', 'Mahabaleshwar'],
+  Manipur: ['Imphal', 'Loktak Lake', 'Ukhrul', 'Moreh', 'Keibul Lamjao National Park'],
+  Meghalaya: ['Cherrapunji', 'Shillong', 'Dawki', 'Mawsynram', 'Nongriat'],
+  Mizoram: ['Aizawl', 'Lunglei', 'Champhai', 'Phawngpui', 'Reiek'],
+  Nagaland: ['Kohima', 'Dimapur', 'Dzukou Valley', 'Mon', 'Mokokchung'],
+  Odisha: ['Puri', 'Bhubaneswar', 'Konark', 'Chilika Lake', 'Gopalpur'],
+  Punjab: ['Amritsar', 'Ludhiana', 'Patiala', 'Jalandhar', 'Wagah Border'],
+  Rajasthan: ['Udaipur', 'Jodhpur', 'Pushkar', 'Mount Abu', 'Ranthambore'],
+  Sikkim: ['Gangtok', 'Pelling', 'Lachung', 'Namchi', 'Nathula Pass'],
+  'Tamil Nadu': ['Chennai', 'Madurai', 'Kodaikanal', 'Rameswaram', 'Mahabalipuram'],
+  Telangana: ['Hyderabad', 'Warangal', 'Nizamabad', 'Charminar', 'Hussain Sagar'],
+  Tripura: ['Agartala', 'Ujjayanta Palace', 'Neermahal', 'Unakoti', 'Jampui Hills'],
+  'Uttar Pradesh': ['Lucknow', 'Ayodhya', 'Mathura', 'Prayagraj', 'Sarnath'],
+  Uttarakhand: ['Nainital', 'Mussoorie', 'Haridwar', 'Kedarnath', 'Auli'],
+  'West Bengal': ['Sundarbans', 'Digha', 'Kalimpong', 'Siliguri', 'Murshidabad'],
+  'Andaman and Nicobar Islands': ['Port Blair', 'Havelock Island', 'Neil Island', 'Baratang Island', 'Ross Island'],
+  Chandigarh: ['Rock Garden', 'Sukhna Lake', 'Rose Garden', 'Capitol Complex', 'Terraced Garden'],
+  'Dadra and Nagar Haveli and Daman and Diu': ['Daman', 'Diu Fort', 'Nagoa Beach', 'Silvassa', 'Jampore Beach'],
+  'Delhi (NCT)': ['India Gate', 'Red Fort', 'Qutub Minar', 'Lotus Temple', 'Humayun’s Tomb'],
+  'Jammu and Kashmir': ['Srinagar', 'Gulmarg', 'Pahalgam', 'Sonamarg', 'Jammu'],
+  Ladakh: ['Leh', 'Nubra Valley', 'Pangong Lake', 'Kargil', 'Tso Moriri'],
+  Lakshadweep: ['Kavaratti', 'Agatti Island', 'Bangaram Island', 'Kalpeni Island', 'Minicoy'],
+  Puducherry: ['Puducherry Promenade', 'Auroville', 'Paradise Beach', 'French Quarter', 'Pichavaram'],
+}
+
+const allDestinations: Destination[] = [
+  ...destinations,
+  ...Object.entries(popularPlacesByState).flatMap(([state, places], stateIndex) => places.map((name, placeIndex) => ({
+    id: 100 + stateIndex * 10 + placeIndex,
+    name,
+    state,
+    type: placeIndex % 2 === 0 ? 'Popular place' : 'Travel experience',
+    crowd: placeIndex % 3 === 0 ? 'Moderate crowd' : 'High crowd',
+    score: 80 + ((stateIndex + placeIndex) % 16),
+    image: destinations[(stateIndex + placeIndex) % destinations.length].image,
+    tag: 'Popular in India',
+    desc: `A celebrated destination in ${state}, known for its memorable sights, local culture and welcoming travel experiences.`,
+    access: 'Good access',
+    activities: 'Sightseeing · Culture · Photography',
+  }))),
 ]
 
 const businesses = [
@@ -46,7 +116,7 @@ export default function Page() {
   const [recommendations, setRecommendations] = useState<typeof destinations>([])
   const [message, setMessage] = useState('')
 
-  const filtered = useMemo(() => destinations.filter((d) => {
+  const filtered = useMemo(() => allDestinations.filter((d) => {
     const matchesQuery = `${d.name} ${d.state} ${d.type}`.toLowerCase().includes(query.toLowerCase())
     const matchesCrowd = crowd === 'All crowd levels' || d.crowd === crowd
     return matchesQuery && matchesCrowd
