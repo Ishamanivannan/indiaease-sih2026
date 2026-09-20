@@ -8,11 +8,93 @@ import {
   X, Zap
 } from 'lucide-react'
 
-const destinations = [
+type Destination = {
+  id: number
+  name: string
+  state: string
+  type: string
+  crowd: string
+  score: number
+  image: string
+  tag: string
+  desc: string
+  access: string
+  activities: string
+}
+
+const destinations: Destination[] = [
   { id: 1, name: 'Hampi', state: 'Karnataka', type: 'Heritage', crowd: 'Low crowd', score: 92, image: 'https://images.unsplash.com/photo-1600100397608-f0107e6b9b5e?auto=format&fit=crop&w=1000&q=80', tag: 'Hidden gem', desc: 'Ancient ruins, boulder landscapes and stories carved into every stone.', access: 'Partial access', activities: 'History · Culture · Photography' },
   { id: 2, name: 'Munnar', state: 'Kerala', type: 'Nature', crowd: 'Moderate crowd', score: 88, image: 'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1000&q=80', tag: 'Nature escape', desc: 'Emerald tea estates and misty mountain trails in the Western Ghats.', access: 'Good access', activities: 'Tea trails · Trekking · Wellness' },
   { id: 3, name: 'Jaisalmer', state: 'Rajasthan', type: 'Cultural', crowd: 'Low crowd', score: 84, image: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1000&q=80', tag: 'Golden hour', desc: 'A living fort, desert skies and warm local hospitality.', access: 'Good access', activities: 'Desert safari · Crafts · Cuisine' },
   { id: 4, name: 'Varkala', state: 'Kerala', type: 'Beach', crowd: 'High crowd', score: 74, image: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1000&q=80', tag: 'Coastal calm', desc: 'Clifftop sunsets, healing waters and a laid-back coastal rhythm.', access: 'Good access', activities: 'Surfing · Wellness · Food' },
+  { id: 5, name: 'Goa', state: 'Goa', type: 'Beach', crowd: 'High crowd', score: 86, image: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1000&q=80', tag: 'Coastal favourite', desc: 'Golden beaches, Portuguese heritage and vibrant coastal culture.', access: 'Good access', activities: 'Beaches · Food · Nightlife' },
+  { id: 6, name: 'Varanasi', state: 'Uttar Pradesh', type: 'Spiritual', crowd: 'High crowd', score: 89, image: 'https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&w=1000&q=80', tag: 'Timeless India', desc: 'Sacred ghats, evening aarti and one of India’s oldest living cities.', access: 'Partial access', activities: 'Culture · Spirituality · Cuisine' },
+  { id: 7, name: 'Agra', state: 'Uttar Pradesh', type: 'Heritage', crowd: 'High crowd', score: 87, image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1000&q=80', tag: 'Iconic landmark', desc: 'The Taj Mahal and a rich Mughal story at the heart of India.', access: 'Good access', activities: 'History · Architecture · Photography' },
+  { id: 8, name: 'Jaipur', state: 'Rajasthan', type: 'Cultural', crowd: 'Moderate crowd', score: 90, image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1000&q=80', tag: 'Royal colour', desc: 'Pink city palaces, artisan markets and legendary Rajasthani hospitality.', access: 'Good access', activities: 'Palaces · Crafts · Cuisine' },
+  { id: 9, name: 'Leh', state: 'Ladakh', type: 'Adventure', crowd: 'Moderate crowd', score: 91, image: 'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1000&q=80', tag: 'Mountain escape', desc: 'High-altitude landscapes, monasteries and unforgettable Himalayan roads.', access: 'Partial access', activities: 'Road trips · Monasteries · Trekking' },
+  { id: 10, name: 'Rishikesh', state: 'Uttarakhand', type: 'Wellness', crowd: 'Moderate crowd', score: 88, image: 'https://images.unsplash.com/photo-1587135941948-670b381f08ce?auto=format&fit=crop&w=1000&q=80', tag: 'River energy', desc: 'Yoga, river adventures and peaceful foothills beside the Ganga.', access: 'Good access', activities: 'Yoga · Rafting · Wellness' },
+  { id: 11, name: 'Darjeeling', state: 'West Bengal', type: 'Nature', crowd: 'Moderate crowd', score: 85, image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1000&q=80', tag: 'Tea country', desc: 'Misty hills, Himalayan views and the charm of the toy train.', access: 'Good access', activities: 'Tea trails · Views · Rail journeys' },
+  { id: 12, name: 'Mumbai', state: 'Maharashtra', type: 'City', crowd: 'High crowd', score: 82, image: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1000&q=80', tag: 'Maximum city', desc: 'Sea-facing promenades, cinema, heritage streets and bold local flavours.', access: 'Good access', activities: 'City life · Food · Heritage' },
+  { id: 13, name: 'Ooty', state: 'Tamil Nadu', type: 'Nature', crowd: 'Moderate crowd', score: 84, image: 'https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=1000&q=80', tag: 'Hill retreat', desc: 'Cool mountain air, colonial charm and rolling Nilgiri tea gardens.', access: 'Good access', activities: 'Gardens · Tea · Scenic drives' },
+  { id: 14, name: 'Kolkata', state: 'West Bengal', type: 'Cultural', crowd: 'Moderate crowd', score: 83, image: 'https://images.unsplash.com/photo-1558431382-27e303142255?auto=format&fit=crop&w=1000&q=80', tag: 'Culture capital', desc: 'Literature, art, grand architecture and food with a soulful rhythm.', access: 'Good access', activities: 'Arts · Food · Architecture' },
+  { id: 15, name: 'Shillong', state: 'Meghalaya', type: 'Nature', crowd: 'Low crowd', score: 90, image: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1000&q=80', tag: 'Cloud country', desc: 'Waterfalls, pine forests and the warm, musical heart of the Northeast.', access: 'Partial access', activities: 'Waterfalls · Music · Road trips' },
+  { id: 16, name: 'Kochi', state: 'Kerala', type: 'Cultural', crowd: 'Moderate crowd', score: 86, image: 'https://images.unsplash.com/photo-1609342122563-a43ac8917a3a?auto=format&fit=crop&w=1000&q=80', tag: 'Backwater gateway', desc: 'Spice routes, coastal heritage and slow journeys through the backwaters.', access: 'Good access', activities: 'Backwaters · History · Seafood' },
+]
+
+const popularPlacesByState: Record<string, string[]> = {
+  'Andhra Pradesh': ['Visakhapatnam', 'Tirupati', 'Araku Valley', 'Vijayawada', 'Amaravati'],
+  'Arunachal Pradesh': ['Tawang', 'Ziro Valley', 'Bomdila', 'Itanagar', 'Sela Pass'],
+  Assam: ['Kaziranga National Park', 'Guwahati', 'Majuli', 'Sivasagar', 'Manas National Park'],
+  Bihar: ['Bodh Gaya', 'Patna', 'Nalanda', 'Rajgir', 'Vaishali'],
+  Chhattisgarh: ['Chitrakote Falls', 'Raipur', 'Bastar', 'Amarkantak', 'Barnawapara'],
+  Goa: ['Panaji', 'Calangute Beach', 'Baga Beach', 'Dudhsagar Falls', 'Old Goa'],
+  Gujarat: ['Ahmedabad', 'Rann of Kutch', 'Gir National Park', 'Dwarka', 'Somnath'],
+  Haryana: ['Gurugram', 'Kurukshetra', 'Panipat', 'Morni Hills', 'Sultanpur National Park'],
+  'Himachal Pradesh': ['Shimla', 'Manali', 'Dharamshala', 'Kasol', 'Spiti Valley'],
+  Jharkhand: ['Ranchi', 'Deoghar', 'Netarhat', 'Jamshedpur', 'Betla National Park'],
+  Karnataka: ['Bengaluru', 'Mysuru', 'Coorg', 'Gokarna', 'Badami'],
+  Kerala: ['Alappuzha', 'Kovalam', 'Thekkady', 'Wayanad', 'Thiruvananthapuram'],
+  'Madhya Pradesh': ['Khajuraho', 'Bhopal', 'Ujjain', 'Pachmarhi', 'Kanha National Park'],
+  Maharashtra: ['Pune', 'Nashik', 'Aurangabad', 'Lonavala', 'Mahabaleshwar'],
+  Manipur: ['Imphal', 'Loktak Lake', 'Ukhrul', 'Moreh', 'Keibul Lamjao National Park'],
+  Meghalaya: ['Cherrapunji', 'Shillong', 'Dawki', 'Mawsynram', 'Nongriat'],
+  Mizoram: ['Aizawl', 'Lunglei', 'Champhai', 'Phawngpui', 'Reiek'],
+  Nagaland: ['Kohima', 'Dimapur', 'Dzukou Valley', 'Mon', 'Mokokchung'],
+  Odisha: ['Puri', 'Bhubaneswar', 'Konark', 'Chilika Lake', 'Gopalpur'],
+  Punjab: ['Amritsar', 'Ludhiana', 'Patiala', 'Jalandhar', 'Wagah Border'],
+  Rajasthan: ['Udaipur', 'Jodhpur', 'Pushkar', 'Mount Abu', 'Ranthambore'],
+  Sikkim: ['Gangtok', 'Pelling', 'Lachung', 'Namchi', 'Nathula Pass'],
+  'Tamil Nadu': ['Chennai', 'Madurai', 'Kodaikanal', 'Rameswaram', 'Mahabalipuram'],
+  Telangana: ['Hyderabad', 'Warangal', 'Nizamabad', 'Charminar', 'Hussain Sagar'],
+  Tripura: ['Agartala', 'Ujjayanta Palace', 'Neermahal', 'Unakoti', 'Jampui Hills'],
+  'Uttar Pradesh': ['Lucknow', 'Ayodhya', 'Mathura', 'Prayagraj', 'Sarnath'],
+  Uttarakhand: ['Nainital', 'Mussoorie', 'Haridwar', 'Kedarnath', 'Auli'],
+  'West Bengal': ['Sundarbans', 'Digha', 'Kalimpong', 'Siliguri', 'Murshidabad'],
+  'Andaman and Nicobar Islands': ['Port Blair', 'Havelock Island', 'Neil Island', 'Baratang Island', 'Ross Island'],
+  Chandigarh: ['Rock Garden', 'Sukhna Lake', 'Rose Garden', 'Capitol Complex', 'Terraced Garden'],
+  'Dadra and Nagar Haveli and Daman and Diu': ['Daman', 'Diu Fort', 'Nagoa Beach', 'Silvassa', 'Jampore Beach'],
+  'Delhi (NCT)': ['India Gate', 'Red Fort', 'Qutub Minar', 'Lotus Temple', 'Humayun’s Tomb'],
+  'Jammu and Kashmir': ['Srinagar', 'Gulmarg', 'Pahalgam', 'Sonamarg', 'Jammu'],
+  Ladakh: ['Leh', 'Nubra Valley', 'Pangong Lake', 'Kargil', 'Tso Moriri'],
+  Lakshadweep: ['Kavaratti', 'Agatti Island', 'Bangaram Island', 'Kalpeni Island', 'Minicoy'],
+  Puducherry: ['Puducherry Promenade', 'Auroville', 'Paradise Beach', 'French Quarter', 'Pichavaram'],
+}
+
+const allDestinations: Destination[] = [
+  ...destinations,
+  ...Object.entries(popularPlacesByState).flatMap(([state, places], stateIndex) => places.map((name, placeIndex) => ({
+    id: 100 + stateIndex * 10 + placeIndex,
+    name,
+    state,
+    type: placeIndex % 2 === 0 ? 'Popular place' : 'Travel experience',
+    crowd: placeIndex % 3 === 0 ? 'Moderate crowd' : 'High crowd',
+    score: 80 + ((stateIndex + placeIndex) % 16),
+    image: destinations[(stateIndex + placeIndex) % destinations.length].image,
+    tag: 'Popular in India',
+    desc: `A celebrated destination in ${state}, known for its memorable sights, local culture and welcoming travel experiences.`,
+    access: 'Good access',
+    activities: 'Sightseeing · Culture · Photography',
+  }))),
 ]
 
 const businesses = [
@@ -34,7 +116,7 @@ export default function Page() {
   const [recommendations, setRecommendations] = useState<typeof destinations>([])
   const [message, setMessage] = useState('')
 
-  const filtered = useMemo(() => destinations.filter((d) => {
+  const filtered = useMemo(() => allDestinations.filter((d) => {
     const matchesQuery = `${d.name} ${d.state} ${d.type}`.toLowerCase().includes(query.toLowerCase())
     const matchesCrowd = crowd === 'All crowd levels' || d.crowd === crowd
     return matchesQuery && matchesCrowd
